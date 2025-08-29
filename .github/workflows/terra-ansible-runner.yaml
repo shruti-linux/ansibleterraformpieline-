@@ -29,10 +29,13 @@ jobs:
           EOF
 
       - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+        
+        run: |
+          cd /home/shruti/ansi-terra/actions-runner/_work/ansibleterraformpieline-/ansibleterraformpieline-/terraform-ansible/abc
+          terraform init
+          terraform apply --auto -approve
+          
+   
 
       - name: Capture instance IP
         run: |
