@@ -19,13 +19,13 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          chmod 600 ~/.ssh/id_rsa
-          chmod 644 ~/.ssh/id_rsa.pub
+          chmod 600 /home/shrutikulshreshta/.ssh/id_ed25519
+          chmod 644 /home/shrutikulshreshta/.ssh/id_ed25519.pub
 
       - name: Create ansible.cfg with host_key_checking disabled
         run: |
           echo '[defaults]' > /home/shruti/ansible/ansible.cfg
-          echo 'host_key_checking = False' >> /home/shruti/ansible/ansible.cfg
+          echo 'host_key_checking = False' >> /home/shrutikulshreshta/terraform-ansible/ansible.cfg
 
       - name: Install Terraform and Ansible on CentOS 9
         run: |
