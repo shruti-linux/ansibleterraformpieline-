@@ -50,20 +50,20 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          cd ansi-terra
+          cd terraform-ansible
           terraform apply -auto-approve
 
       - name: Get Terraform output (IP)
         run: |
-          cd ansi-terra
-          terraform output -raw instance_ip > /home/shruti/ansi-terra/ip.txt
+          cd terraform-ansible
+          terraform output -raw instance_ip >ip.txt
           echo "" >> ip.txt  # add newline
-          terraform output -raw instance_ip_s >> /home/shruti/ansi-terra/ip.txt
-          echo "" >> ip.txt  # optional: ensure trailing newline
+          terraform output -raw instance_ip_s >> ip.txt
+          #echo "" >> ip.txt  # optional: ensure trailing newline
       
       - name: Prepare Ansible inventory
         run: |
-          cd ansi-terra
+          cd terraform-ansible
           echo "[centos9]" > inventory
           if [ -s ip.txt ]; then
             while IFS= read -r ip; do
