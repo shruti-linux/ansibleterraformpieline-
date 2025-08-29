@@ -1,0 +1,98 @@
+---
+- name: Configure CentOS 9 VM
+  hosts: centos9
+  become: true
+  vars:
+    html_file_path: /var/www/html/index.html
+    
+  tasks:
+    - name: Install required packages
+      dnf:
+        name:
+          - git
+        state: present
+
+    - name: Create a user for automation
+      user:
+        name: devopsa
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Add sudo privileges for devops user
+      lineinfile:
+        path: /etc/sudoers.d/devopsa
+        line: 'devopsa ALL=(ALL) NOPASSWD: ALL'
+        create: yes
+        mode: '0440'
+
+    - name: Install httpd (Apache)
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure httpd is started and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Deploy custom Eduarn HTML page
+      copy:
+        dest: "{{ html_file_path }}"
+        content: |
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <title>Eduarn | AWS Terraform Webinar</title>
+              <style>
+                  body {
+                      font-family: Arial, sans-serif;
+                      background: #f4f6f9;
+                      color: #333;
+                      text-align: center;
+                      padding: 50px;
+                  }
+                  .container {
+                      background: #fff;
+                      padding: 40px;
+                      border-radius: 10px;
+                      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                      max-width: 800px;
+                      margin: auto;
+                  }
+                  img {
+                      max-width: 100%;
+                      border-radius: 10px;
+                  }
+                  h1 {
+                      color: #2d3e50;
+                  }
+                  a.button {
+                      display: inline-block;
+                      margin-top: 20px;
+                      padding: 12px 25px;
+                      background-color: #0073e6;
+                      color: #fff;
+                      text-decoration: none;
+                      border-radius: 6px;
+                      font-weight: bold;
+                  }
+                  a.button:hover {
+                      background-color: #005bb5;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🚀 AWS Terraform Webinar – Hosted by Eduarn but Im Running in GCP Cloud!</h1>
+                  <p>Thank you for launching this instance. Join our 90-minute live demo session to learn how to build real cloud infrastructure using Terraform on AWS.</p>
+                  <img src="https://eduarn.com/static/images/eduarn-lms/eduarn-lms-learning-management-system-main.webp" alt="Eduarn LMS">
+                  <br>
+                  <a class="button" href="https://eduarn.com/eduarn-lms" target="_blank">🔗 Eduarn LMS</a>
+                  <a class="button" href="https://eduarn.com/" target="_blank">🔗 Eduarn Courses</a>
+                  <a class="button" href="https://eduarn.com/eduarn-training" target="_blank">🔗 Eduarn Training</a>
+                  <a class="button" href="https://eduarn.com/webinar/learn-terraform-aws-demo-session" target="_blank">🔗 Join the Free Demo</a>
+              </div>
+          </body>
+          </html>
