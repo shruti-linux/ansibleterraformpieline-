@@ -1,0 +1,59 @@
+---
+- name: Configure GCP Instance
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install required packages
+      apt:
+        name:
+          - python3
+          - git
+          - curl
+          - wget
+          - docker.io
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add devops user to docker group
+      user:
+        name: devops
+        groups: docker
+        append: yes
+
+    - name: Ensure devops user has sudo access
+      lineinfile:
+        path: /etc/sudoers.d/devops
+        line: 'devops ALL=(ALL) NOPASSWD:ALL'
+        state: present
+        validate: 'visudo -cf %s'
+
+    - name: Create application directory
+      file:
+        path: /opt/app
+        state: directory
+        owner: devops
+        group: devops
+        mode: '0755'
+
+    - name: Deploy sample application
+      copy:
+        content: |
+          #!/bin/bash
+          echo "Hello from Ansible-configured server!"
+          docker run hello-world
+        dest: /opt/app/start.sh
+        owner: devops
+        group: devops
+        mode: '0755'
