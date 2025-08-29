@@ -1,19 +1,21 @@
-
-provider "google" {
-  project     = "ansi-465711"
-  region      = "us-central1"
-  credentials = file("/root/sa.json")
-}
-
-#tf-state-prod-bykumar need to create manully
 terraform {
-  required_version = ">= 0.13"
-
   required_providers {
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "6.48.0"
     }
   }
+}
+
+provider "google" { 
+    project     = "ansi-465711" 
+    region      = "us-central1" 
+    zone        = "us-central1-a" 
+    credentials = "/root/sa.json"
+}
+
+
+
 
   backend "gcs" {
     bucket      = "shruti-bucket-llove"
