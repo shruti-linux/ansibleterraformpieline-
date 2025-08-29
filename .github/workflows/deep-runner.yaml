@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+      TF_VAR_project_id: "ansi-465711"
       TF_VAR_region: "us-central1"
       TF_VAR_zone: "us-central1-a"
 
