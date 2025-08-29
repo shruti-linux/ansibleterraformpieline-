@@ -20,26 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create ansible.cfg with host_key_checking disabled
-        run: |
-          set -euo pipefail
-          cat > ansible.cfg <<EOF
-          [defaults]
-          host_key_checking = False
-          EOF
 
-      - name: Terraform Init
-     
-        run: |
-            cd /home/shruti/ansi-terra/abc
-            terraform init
-            terraform apply --auto-approve
-            terraform output external_ip  > ip.txt
-            echo "" >> ip.txt 
-
-         
-    
-         
       
       - name: Prepare Ansible inventory
         run: |
