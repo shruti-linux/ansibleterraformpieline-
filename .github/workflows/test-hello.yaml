@@ -1,0 +1,15 @@
+#on:
+#  push:
+#    branches:
+#      - main  # Or whichever branch you want
+on:
+  workflow_dispatch:    
+  
+jobs:
+  hello:
+    name: Say Hello
+    runs-on: self-hosted
+
+    steps:
+      - name: Print Hello World
+        run: echo "Hello, World from self-hosted runner!"
