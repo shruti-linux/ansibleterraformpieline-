@@ -34,7 +34,7 @@ jobs:
             cd /home/shruti/ansi-terra/abc
             terraform init
             terraform apply --auto-approve
-            terraform output instance_ip  > ip.txt
+            terraform output external_ip  > ip.txt
             echo "" >> ip.txt 
 
          
