@@ -50,8 +50,8 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          cd /home/shruti/ansi-terra
-          terraform apply -auto-approve
+          #cd /home/shruti/ansi-terra
+          terraform apply ./main.tf -auto-approve
 
       - name: Get Terraform output (IP)
         run: |
