@@ -7,7 +7,7 @@ on:
   
 jobs:
   hello:
-    name: Say Hello
+    name: Say Hello shruti/ini
     runs-on: self-hosted
 
     steps:
