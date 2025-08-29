@@ -34,15 +34,11 @@ jobs:
             cd /home/shruti/ansi-terra/abc
             terraform init
             terraform apply --auto-approve
+            terraform output -raw instance_ip > ip.txt
+            echo "" >> ip.txt 
 
          
-      
-
-      - name: Get Terraform output (IP)
-        run: |
-          cd terraform-ansible
-          terraform output -raw instance_ip > ip.txt
-          echo "" >> ip.txt  # add newline
+    
          
       
       - name: Prepare Ansible inventory
