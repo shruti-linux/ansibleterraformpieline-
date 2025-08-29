@@ -49,11 +49,10 @@ jobs:
           terraform init
 
       - name: Terraform Apply
-        working-directory: ./ansible-terraform
+        working-directory: ./terraform-ansible
         run: |
-        
-          cd /home/shruti/ansi-terra
-          terraform apply ./main.tf -auto-approve
+    
+          terraform apply  -auto-approve
 
       - name: Get Terraform output (IP)
         run: |
