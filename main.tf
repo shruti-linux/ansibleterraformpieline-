@@ -8,7 +8,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket      = "your-terraform-state-bucket"
+    bucket      = "shruti-bucket-llove"
     prefix      = "terraform/state"
     credentials = "/tmp/sa.json"
   }
