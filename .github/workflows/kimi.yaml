@@ -5,7 +5,7 @@ on:
 
 env:
   TF_VAR_project_id:      "ansi-465711"
-  TF_VAR_credentials_file: "/root/sa.json"
+  TF_VAR_credentials_file: "/home/shruti/ansi-terra/actions-runner/_work/ansibleterraformpieline-/ansibleterraformpieline-/terraform-ansible/sa.json"
   ANSIBLE_HOST_KEY_CHECKING: "False"
 
 jobs:
