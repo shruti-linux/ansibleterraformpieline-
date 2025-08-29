@@ -1,5 +1,5 @@
 
-esource "google_compute_address" "static_ip" {
+resource "google_compute_address" "static_ip" {
   name   = "centos9-vm3-ip"
   region = "us-central1"
 }
