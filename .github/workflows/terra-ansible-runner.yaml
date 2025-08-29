@@ -8,11 +8,12 @@ jobs:
     runs-on: self-hosted 
 
     env:
-      TF_VAR_project_id: ""
-      TF_VAR_credentials_file: "~/sec.json"
-      TF_VAR_public_key_path: "~/.ssh/id_rsa.pub"
+      TF_VAR_project_id: "ansi-465711"
+      TF_VAR_credentials_file: "/root/sa.json"
+      TF_VAR_public_key_path: "/home/shruti/.ssh/id_rsa.pub"
 
     steps:
+    
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -23,8 +24,8 @@ jobs:
 
       - name: Create ansible.cfg with host_key_checking disabled
         run: |
-          echo '[defaults]' > ansible.cfg
-          echo 'host_key_checking = False' >> ansible.cfg
+          echo '[defaults]' > /home/shruti/ansible/ansible.cfg
+          echo 'host_key_checking = False' >> /home/shruti/ansible/ansible.cfg
 
       - name: Install Terraform and Ansible on CentOS 9
         run: |
@@ -35,8 +36,8 @@ jobs:
           sudo dnf install -y ansible
       
           # Add HashiCorp repo and install Terraform
-          sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          sudo dnf -y install terraform
+          #sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+          #sudo dnf -y install terraform
       
           # Confirm versions
           terraform -version
@@ -49,20 +50,20 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          cd terraform-ansible
+          cd ansi-terra
           terraform apply -auto-approve
 
       - name: Get Terraform output (IP)
         run: |
-          cd terraform-ansible
-          terraform output -raw instance_ip > ip.txt
+          cd ansi-terra
+          terraform output -raw instance_ip > /home/shruti/ansi-terra/ip.txt
           echo "" >> ip.txt  # add newline
-          terraform output -raw instance_ip_s >> ip.txt
+          terraform output -raw instance_ip_s >> /home/shruti/ansi-terra/ip.txt
           echo "" >> ip.txt  # optional: ensure trailing newline
       
       - name: Prepare Ansible inventory
         run: |
-          cd terraform-ansible
+          cd ansi-terra
           echo "[centos9]" > inventory
           if [ -s ip.txt ]; then
             while IFS= read -r ip; do
