@@ -43,7 +43,7 @@ jobs:
       
       - name: Prepare Ansible inventory
         run: |
-          cd /home/shruti/ansi-terra/abc/ip
+          cd /home/shruti/ansi-terra/abc/
           echo "[centos9]" > inventory
           if [ -s ip.txt ]; then
             while IFS= read -r ip; do
