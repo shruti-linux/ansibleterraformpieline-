@@ -32,6 +32,8 @@ jobs:
         
         run: |
           cd /home/shruti/ansi-terra/actions-runner/_work/ansibleterraformpieline-/ansibleterraformpieline-/terraform-ansible/abc
+          pwd
+          ls -l 
           terraform init
           terraform apply --auto -approve
           
