@@ -1,4 +1,4 @@
-name: Deploy CentOS 9 on GCP with Terraform & Ansible
+name: Deploy CentOS 9 on GCP with Terraform & Aeensible
 
 on:
   workflow_dispatch:
