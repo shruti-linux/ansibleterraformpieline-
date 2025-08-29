@@ -43,8 +43,7 @@ jobs:
           cd terraform-ansible
           terraform output -raw instance_ip > ip.txt
           echo "" >> ip.txt  # add newline
-          terraform output -raw instance_ip_s >> ip.txt
-          echo "" >> ip.txt  # optional: ensure trailing newline
+         
       
       - name: Prepare Ansible inventory
         run: |
