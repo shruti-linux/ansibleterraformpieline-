@@ -33,7 +33,7 @@ jobs:
         run: |
             cd /home/shruti/ansi-terra/abc
             terraform init
-            terraform apply --auto -approve
+            terraform apply --auto-approve
 
          
       
