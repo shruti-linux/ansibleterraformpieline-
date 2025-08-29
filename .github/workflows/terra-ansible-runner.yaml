@@ -33,11 +33,11 @@ jobs:
           #sudo dnf install -y dnf-plugins-core epel-release
       
           # Install Ansible from EPEL
-          sudo dnf install -y ansible
+          #sudo dnf install -y ansible
       
           # Add HashiCorp repo and install Terraform
-          #sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          #sudo dnf -y install terraform
+          sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+          sudo dnf -y install terraform
       
           # Confirm versions
           terraform -version
