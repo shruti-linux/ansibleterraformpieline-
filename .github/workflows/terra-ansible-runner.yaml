@@ -45,17 +45,17 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd ansi-terra
+          cd /home/shruti/ansi-terra
           terraform init
 
       - name: Terraform Apply
         run: |
-          cd ansi-terra
+          cd /home/shruti/ansi-terra
           terraform apply -auto-approve
 
       - name: Get Terraform output (IP)
         run: |
-          cd ansi-terra
+          cd /home/shruti/ansi-terra
           terraform output -raw instance_ip >ip.txt
           echo "" >> ip.txt  # add newline
           terraform output -raw instance_ip_s >> ip.txt
