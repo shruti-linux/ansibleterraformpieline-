@@ -29,20 +29,14 @@ jobs:
           EOF
 
       - name: Terraform Init
-        working-directory: /home/shruti/ansi-terra/actions-runner/_work/ansibleterraformpieline-/ansibleterraformpieline-/terraform-ansible/abc
+     
         run: |
-  
-          ls -l 
-          terraform init
-          terraform apply --auto -approve
+            cd /home/shruti/ansi-terra/abc
+            terraform init
+            terraform apply --auto -approve
 
          
       
-          # Confirm versions
-          terraform -version
-          ansible --version
-
-     
 
       - name: Get Terraform output (IP)
         run: |
