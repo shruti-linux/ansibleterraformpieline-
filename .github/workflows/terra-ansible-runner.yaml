@@ -68,7 +68,7 @@ jobs:
                 exit 1
               fi
             done
-            echo "SSH is up on $ip"
+            echo "SSH is up on shrutikulshreshta@$ip"
           done
 
        
