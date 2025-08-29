@@ -9,8 +9,8 @@ jobs:
 
     env:
       TF_VAR_project_id: "ansi-465711"
-      TF_VAR_credentials_file: "/root/sa.json"
-      TF_VAR_public_key_path: "/home/shruti/.ssh/id_rsa.pub"
+      TF_VAR_credentials_file: "/home/shrutikulshreshta/terraform-ansible/sa.json"
+      TF_VAR_public_key_path: "/home/shrutikulshreshta/.ssh/id_ed25519.pub"
 
     steps:
     
