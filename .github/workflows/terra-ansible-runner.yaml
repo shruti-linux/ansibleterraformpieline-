@@ -43,11 +43,11 @@ jobs:
       
       - name: Prepare Ansible inventory
         run: |
-          cd terraform-ansible
+          cd /home/shruti/ansi-terra/abc/ip
           echo "[centos9]" > inventory
           if [ -s ip.txt ]; then
             while IFS= read -r ip; do
-              echo "$ip ansible_user=devops ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true" >> inventory
+              echo "$ip ansible_user=shruti ansible_ssh_private_key_file=home/shruti/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true" >> inventory
             done < ip.txt
           else
             echo "ip.txt is empty!"
@@ -55,11 +55,11 @@ jobs:
   
       - name: Wait up to 3 minutes for SSH
         run: |
-          for ip in $(cat terraform-ansible/ip.txt); do
+          for ip in $(cat /home/shruti/ansi-terra/abc/ip.txt); do
             echo "Waiting for SSH on $ip..."
             timeout=180
             waited=0
-            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q devops@$ip 'echo ok' 2>/dev/null; do
+            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q shruti@$ip 'echo ok' 2>/dev/null; do
               sleep 5
               waited=$((waited + 5))
               echo "Still waiting for $ip... (${waited}s)"
@@ -74,7 +74,7 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           cd terraform-ansible
-          ansible-playbook -i inventory playbook.yaml
+          ansible-playbook -i inventory playbook1-adduser.yaml
           
    
 
