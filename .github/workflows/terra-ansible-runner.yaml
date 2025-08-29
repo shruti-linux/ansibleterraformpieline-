@@ -36,8 +36,8 @@ jobs:
           #sudo dnf install -y ansible
       
           # Add HashiCorp repo and install Terraform
-          sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          sudo dnf -y install terraform
+          #sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+          #sudo dnf -y install terraform
       
           # Confirm versions
           terraform -version
