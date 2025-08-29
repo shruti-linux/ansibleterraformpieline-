@@ -30,7 +30,7 @@ jobs:
       - name: Install Terraform and Ansible on CentOS 9
         run: |
           # Enable required repos
-          sudo dnf install -y dnf-plugins-core epel-release
+          #sudo dnf install -y dnf-plugins-core epel-release
       
           # Install Ansible from EPEL
           sudo dnf install -y ansible
