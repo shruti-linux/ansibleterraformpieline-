@@ -73,7 +73,7 @@ jobs:
       
       - name: Run Ansible Playbook
         run: |
-          cd terraform-ansible
+          cd /home/shruti/ansi-terra/abc
           ansible-playbook -i inventory playbook1-adduser.yaml
           
    
