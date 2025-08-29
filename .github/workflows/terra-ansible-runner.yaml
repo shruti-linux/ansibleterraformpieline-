@@ -57,7 +57,7 @@ jobs:
         run: |
           for ip in $(cat /home/shruti/ansi-terra/abc/ip.txt); do
             echo "Waiting for SSH on $ip..."
-            timeout=180
+            timeout=60
             waited=0
             until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q shrutikulshreshta@$ip 'echo ok' 2>/dev/null; do
               sleep 5
