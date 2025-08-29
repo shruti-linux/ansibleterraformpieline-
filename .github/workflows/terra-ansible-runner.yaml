@@ -50,7 +50,7 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          cd terraform-ansible
+          cd ansi-terra
           terraform apply -auto-approve
 
       - name: Get Terraform output (IP)
