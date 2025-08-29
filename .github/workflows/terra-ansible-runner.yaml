@@ -59,7 +59,7 @@ jobs:
             echo "Waiting for SSH on $ip..."
             timeout=180
             waited=0
-            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q shruti@$ip 'echo ok' 2>/dev/null; do
+            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q shrutikulshreshta@$ip 'echo ok' 2>/dev/null; do
               sleep 5
               waited=$((waited + 5))
               echo "Still waiting for $ip... (${waited}s)"
@@ -70,6 +70,8 @@ jobs:
             done
             echo "SSH is up on $ip"
           done
+
+       
       
       - name: Run Ansible Playbook
         run: |
