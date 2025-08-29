@@ -45,7 +45,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform-ansible
+          cd ansi-terra
           terraform init
 
       - name: Terraform Apply
