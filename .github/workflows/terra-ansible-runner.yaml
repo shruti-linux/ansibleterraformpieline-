@@ -55,7 +55,7 @@ jobs:
 
       - name: Get Terraform output (IP)
         run: |
-          cd terraform-ansible
+          cd ansi-terra
           terraform output -raw instance_ip >ip.txt
           echo "" >> ip.txt  # add newline
           terraform output -raw instance_ip_s >> ip.txt
