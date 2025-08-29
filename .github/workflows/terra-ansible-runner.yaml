@@ -28,7 +28,7 @@ jobs:
           echo "[centos9]" > inventory
           if [ -s ip.txt ]; then
             while IFS= read -r ip; do
-              echo "$ip ansible_user=shrutikulshreshta  become_method=sudo host_key_checking=False ansible_ssh_private_key_file=home/shruti/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true" >> inventory
+              echo "$ip ansible_user=shrutikulshreshta  become_method=sudo host_key_checking=False ansible_ssh_private_key_file=/home/shruti/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true" >> inventory
             done < ip.txt
           else
             echo "ip.txt is empty!"
