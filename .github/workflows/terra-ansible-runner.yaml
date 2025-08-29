@@ -24,7 +24,7 @@ jobs:
 
       - name: Create ansible.cfg with host_key_checking disabled
         run: |
-          echo '[defaults]' > /home/shruti/ansible/ansible.cfg
+          echo '[defaults]' > /home/shrutikulshreshta/terraform-ansible/ansible.cfg
           echo 'host_key_checking = False' >> /home/shrutikulshreshta/terraform-ansible/ansible.cfg
 
       - name: Install Terraform and Ansible on CentOS 9
