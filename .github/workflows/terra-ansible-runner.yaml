@@ -5,94 +5,64 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted 
+    runs-on: self-hosted
 
     env:
-      TF_VAR_project_id: "ansi-465711"
-      TF_VAR_credentials_file: "/root/sa.json"
-      TF_VAR_public_key_path: "/home/shruti/.ssh/id_rsa.pub"
+      TF_VAR_project_id:        "ansi-465711"
+      TF_VAR_credentials_file:  "/root/sa.json"
+      TF_VAR_public_key_path:   "/home/shruti/.ssh/id_rsa.pub"
+
+    defaults:
+      run:
+        working-directory: /home/shruti/ansi-terra   # all steps use this folder
 
     steps:
-    
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up SSH key
-        run: |
-          chmod 600 /home/shruti/.ssh/id_rsa.pub
-          chmod 644 /home/shruti/.ssh/id_rsa.pub
-
       - name: Create ansible.cfg with host_key_checking disabled
         run: |
-          echo '[defaults]' > /home/shruti/ansi-terra/ansible.cfg
-          echo 'host_key_checking = False' >> /home/shruti/ansi-terra/ansible.cfg
-
-      - name: Install Terraform and Ansible on CentOS 9
-        run: |
-          # Enable required repos
-          #sudo dnf install -y dnf-plugins-core epel-release
-      
-          # Install Ansible from EPEL
-          #sudo dnf install -y ansible
-      
-          # Add HashiCorp repo and install Terraform
-          #sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          #sudo dnf -y install terraform
-      
-          # Confirm versions
-          terraform -version
-          ansible --version
+          set -euo pipefail
+          cat > ansible.cfg <<EOF
+          [defaults]
+          host_key_checking = False
+          EOF
 
       - name: Terraform Init
-        run: |
-          cd /home/shruti/ansi-terra
-          terraform init
+        run: terraform init
 
       - name: Terraform Apply
-        working-directory: ./terraform-ansible
-        run: |
-    
-          terraform apply  -auto-approve
+        run: terraform apply -auto-approve
 
-      - name: Get Terraform output (IP)
+      - name: Capture instance IP
         run: |
-          cd /home/shruti/ansi-terra
-          terraform output -raw instance_ip >ip.txt
-          echo "" >> ip.txt  # add newline
-          terraform output -raw instance_ip_s >> ip.txt
-          #echo "" >> ip.txt  # optional: ensure trailing newline
-      
-      - name: Prepare Ansible inventory
+          set -euo pipefail
+          terraform output -raw instance_ip > ip.txt
+          [ -s ip.txt ] || { echo "No IP returned by Terraform"; exit 1; }
+
+      - name: Build Ansible inventory
         run: |
-          cd terraform-ansible
-          echo "[centos9]" > inventory
-          if [ -s ip.txt ]; then
+          set -euo pipefail
+          {
+            echo "[centos9]"
             while IFS= read -r ip; do
-              echo "$ip ansible_user=devops ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true" >> inventory
+              echo "$ip ansible_user=devops ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true"
             done < ip.txt
-          else
-            echo "ip.txt is empty!"
-          fi
-  
+          } > inventory
+
       - name: Wait up to 3 minutes for SSH
         run: |
-          for ip in $(cat terraform-ansible/ip.txt); do
-            echo "Waiting for SSH on $ip..."
-            timeout=180
-            waited=0
-            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q devops@$ip 'echo ok' 2>/dev/null; do
+          set -euo pipefail
+          for ip in $(< ip.txt); do
+            echo "Waiting for SSH on $ip …"
+            timeout=180 waited=0
+            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa devops@$ip 'echo SSH OK'; do
               sleep 5
               waited=$((waited + 5))
-              echo "Still waiting for $ip... (${waited}s)"
-              if [ $waited -ge $timeout ]; then
-                echo "Timeout reached waiting for $ip"
-                exit 1
-              fi
+              [ $waited -ge $timeout ] && { echo "Timeout waiting for $ip"; exit 1; }
             done
-            echo "SSH is up on $ip"
+            echo "SSH ready on $ip"
           done
-      
+
       - name: Run Ansible Playbook
-        run: |
-          cd terraform-ansible
-          ansible-playbook -i inventory playbook.yaml
+        run: ansible-playbook -i inventory playbook.yaml
