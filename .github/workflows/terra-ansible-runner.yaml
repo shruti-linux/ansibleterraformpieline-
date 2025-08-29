@@ -1,4 +1,4 @@
-name: Deploy CentOS 9 on GCP and Configure via Ansible
+name: SHRUTI
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ jobs:
   deploy:
     runs-on: self-hosted
 
-    env:
+    #env:
       #TF_VAR_project_id:        "ansi-465711"
       #TF_VAR_credentials_file:  "/home/shruti/ansi-terra/actions-runner/_work/ansibleterraformpieline-/ansibleterraformpieline-/terraform-ansible/sa.json"
       #TF_VAR_public_key_path:   "/home/shruti/.ssh/id_rsa.pub"
