@@ -1,0 +1,62 @@
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    google = { source = "hashicorp/google", version = "6.48.0" }
+  }
+  backend "gcs" {
+    bucket = "shruti-bucket-llove"
+    prefix = "ansible-terraform"
+  }
+}
+
+variable "project_id"      {}
+variable "region"          { default = "us-central1" }
+variable "zone"            { default = "us-central1-a" }
+variable "credentials_file" {}
+
+provider "google" {
+  project     = var.project_id
+  region      = var.region
+  zone        = var.zone
+  credentials = var.credentials_file
+}
+
+# VPC + Firewall
+resource "google_compute_network" "vpc" {
+  name                    = "tf-vpc"
+  auto_create_subnetworks = true
+}
+
+resource "google_compute_firewall" "allow_ssh" {
+  name    = "allow-ssh"
+  network = google_compute_network.vpc.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["tf-vm"]
+}
+
+# VM
+resource "google_compute_instance" "vm" {
+  name         = "centos9-from-gha"
+  machine_type = "e2-medium"
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params { image = "centos-cloud/centos-stream-9" }
+  }
+
+  network_interface {
+    network       = google_compute_network.vpc.name
+    access_config {}   # ephemeral public IP
+  }
+
+  metadata = {
+    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+  tags = ["tf-vm"]
+}
